@@ -13,4 +13,18 @@
     <color name="colorTextPrimary">#333333</color>
     <color name="colorTextSecondary">#666666</color>
     <color name="colorBorder">#E0E0E0</color>
+
+    <color name="app_background">#FDFDFD</color>
+    <color name="app_orange">#FF9800</color>
+    <color name="app_maroon">#8D2424</color>
+    <color name="app_red_error">#D32F2F</color>
+
+    <color name="app_text_dark">#212121</color>
+    <color name="app_text_gray">#8A8A8A</color>
+
+    <color name="app_disabled_bg">#F5F5F5</color>
+    <color name="app_divider">#1F000000</color>
+
+    <color name="app_item_disabled_bg">#F5F5F5</color>
+    <color name="app_out_of_stock">#D32F2F</color>
 </resources>

@@ -1,3 +1,35 @@
 <resources>
     <string name="app_name">GoChicken</string>
+
+    <string name="title_buat_pesanan_baru">Buat Pesanan Baru</string>
+
+    <string name="filter_produk">Filter Produk</string>
+    <string name="tampilkan_semua">Tampilkan Semua</string>
+    <string name="category_foods">Foods</string>
+    <string name="category_drinks">Drinks</string>
+    <string name="category_combo">Combo</string>
+
+    <string name="menu_populer">Menu Populer</string>
+
+    <string name="menu_paha_bawah">Paha Bawah</string>
+    <string name="menu_stock_paha_bawah">Stock : 50</string>
+    <string name="menu_harga_7000">Rp. 7000,-</string>
+
+    <string name="menu_sayap">Sayap</string>
+    <string name="menu_stock_sayap">Stock : 27</string>
+
+    <string name="menu_dada">Dada</string>
+    <string name="menu_stock_dada">Stock : 109</string>
+    <string name="menu_harga_8000">Rp. 8000,-</string>
+
+    <string name="menu_paha_atas">Paha Atas</string>
+    <string name="menu_stock_paha_atas">Stock : 3</string>
+
+    <string name="menu_kepala">Kepala</string>
+    <string name="menu_stock_kepala">Stock : 0</string>
+
+    <string name="menu_out_of_stock">Out Of Stock</string>
+
+    <string name="nav_katalog">Katalog Produk</string>
+    <string name="nav_keranjang">Keranjang Pesanan</string>
 </resources>
