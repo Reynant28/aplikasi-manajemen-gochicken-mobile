@@ -1,10 +1,10 @@
-package com.example.gochicken.network
+package com.example.gochicken.api
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiClient {
-    private const val BASE_URL = "http://10.184.176.48:8000/api/" // use your real Laravel API base URL
+    const val BASE_URL = "http://192.168.100.13:8000/api/" // use your real Laravel API base URL
 
     val instance: ApiService by lazy {
         val retrofit = Retrofit.Builder()

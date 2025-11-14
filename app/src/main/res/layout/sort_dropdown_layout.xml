@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="200dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/dropdown_background"
+    android:elevation="8dp"
+    android:paddingVertical="8dp">
+
+    <!-- Default Option -->
+    <TextView
+        android:id="@+id/sortDefault"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="center_vertical"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:text="Default"
+        android:textColor="@color/app_text_dark"
+        android:textSize="14sp"
+        android:background="?android:attr/selectableItemBackground" />
+
+    <!-- Price High to Low -->
+    <TextView
+        android:id="@+id/sortPriceHighToLow"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="center_vertical"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:text="Harga Tertinggi"
+        android:textColor="@color/app_text_dark"
+        android:textSize="14sp"
+        android:background="?android:attr/selectableItemBackground" />
+
+    <!-- Price Low to High -->
+    <TextView
+        android:id="@+id/sortPriceLowToHigh"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="center_vertical"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:text="Harga Terendah"
+        android:textColor="@color/app_text_dark"
+        android:textSize="14sp"
+        android:background="?android:attr/selectableItemBackground" />
+
+    <!-- Category -->
+    <TextView
+        android:id="@+id/sortCategory"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="center_vertical"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:text="Kategori"
+        android:textColor="@color/app_text_dark"
+        android:textSize="14sp"
+        android:background="?android:attr/selectableItemBackground" />
+
+</LinearLayout>

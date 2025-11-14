@@ -4,7 +4,6 @@
     <color name="colorTextCoklat">#6D4C41</color>
     <color name="colorButton">#C87A54</color>
     <color name="colorHint">#A08C82</color>
-    <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
     <color name="colorPageBackground">#FFFFFF</color>
@@ -19,7 +18,7 @@
     <color name="app_maroon">#8D2424</color>
     <color name="app_red_error">#D32F2F</color>
 
-    <color name="app_text_dark">#212121</color>
+    <color name="app_text_dark">#49445a</color>
     <color name="app_text_gray">#8A8A8A</color>
 
     <color name="app_disabled_bg">#F5F5F5</color>
@@ -27,4 +26,15 @@
 
     <color name="app_item_disabled_bg">#F5F5F5</color>
     <color name="app_out_of_stock">#D32F2F</color>
+
+    <color name="light_gray">#F5F5F5</color>
+    <color name="gray">#757575</color>
+    <color name="black">#333333</color>
+    <color name="primary_color">#2196F3</color>
+    <color name="logout_red">#F44336</color>
+    <!-- Ripple effect color -->
+    <color name="app_ripple">#1A000000</color>
+
+    <color name="light_grey">#D3D3D3</color>
+
 </resources>
