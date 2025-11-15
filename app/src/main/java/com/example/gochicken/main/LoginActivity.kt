@@ -3,10 +3,14 @@ package com.example.gochicken.main
 import android.R
 import android.content.Intent
 import android.os.Bundle
+import android.text.InputType
 import android.util.Log
+import android.view.View
 import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.gochicken.api.ApiClient
@@ -19,9 +23,12 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var actCabang: AutoCompleteTextView
     private lateinit var etPasswordCabang: EditText
     private lateinit var btnLogin: Button
+    private lateinit var ivTogglePassword: ImageView
+    private lateinit var progressBar: ProgressBar
 
     private var cabangList: List<com.example.gochicken.main.Cabang> = emptyList()
     private var selectedCabangId: String? = null
+    private var isPasswordVisible = false
 
     private fun loadCabangData() {
         Log.d("CabangDebug", "Loading cabang data...")
@@ -65,8 +72,27 @@ class LoginActivity : AppCompatActivity() {
         actCabang = findViewById(com.example.gochicken.R.id.actCabang)
         etPasswordCabang = findViewById(com.example.gochicken.R.id.etPasswordCabang)
         btnLogin = findViewById(com.example.gochicken.R.id.btnLogin)
+        ivTogglePassword = findViewById(com.example.gochicken.R.id.ivTogglePasswordCabang)
+        progressBar = findViewById(com.example.gochicken.R.id.progressBar)
 
         loadCabangData()
+
+        // Toggle password visibility
+        ivTogglePassword.setOnClickListener {
+            if (isPasswordVisible) {
+                // Hide password
+                etPasswordCabang.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                ivTogglePassword.setImageResource(com.example.gochicken.R.drawable.ic_eye_off)
+                isPasswordVisible = false
+            } else {
+                // Show password
+                etPasswordCabang.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                ivTogglePassword.setImageResource(com.example.gochicken.R.drawable.ic_eye)
+                isPasswordVisible = true
+            }
+            // Move cursor to end of text
+            etPasswordCabang.setSelection(etPasswordCabang.text.length)
+        }
 
         btnLogin.setOnClickListener {
             val idCabang = selectedCabangId ?: ""
@@ -77,9 +103,19 @@ class LoginActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            // Show loading state
+            btnLogin.isEnabled = false
+            btnLogin.text = ""
+            progressBar.visibility = View.VISIBLE
+
             ApiClient.instance.loginKasir(idCabang, passCabang)
                 .enqueue(object : Callback<LoginResponse> {
                     override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
+                        // Hide loading state
+                        btnLogin.isEnabled = true
+                        btnLogin.text = "Login sebagai Kasir"
+                        progressBar.visibility = View.GONE
+
                         if (response.isSuccessful && response.body() != null) {
                             val body = response.body()!!
                             if (body.status == "success") {
@@ -99,6 +135,11 @@ class LoginActivity : AppCompatActivity() {
                     }
 
                     override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                        // Hide loading state
+                        btnLogin.isEnabled = true
+                        btnLogin.text = "Login sebagai Kasir"
+                        progressBar.visibility = View.GONE
+
                         Toast.makeText(this@LoginActivity, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
                     }
                 })
