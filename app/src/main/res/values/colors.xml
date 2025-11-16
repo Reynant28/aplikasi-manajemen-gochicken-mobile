@@ -5,6 +5,7 @@
     <color name="colorButton">#C87A54</color>
     <color name="colorHint">#A08C82</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="whiteDark">#EBEBEB</color>
 
     <color name="colorPageBackground">#FFFFFF</color>
     <color name="colorRed">#F0243C</color>

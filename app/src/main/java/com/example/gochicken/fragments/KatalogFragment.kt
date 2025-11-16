@@ -46,6 +46,10 @@ class KatalogFragment : Fragment() {
         setupRecyclerView()
         setupSwipeRefresh()
         loadProdukData()
+
+        produkAdapter.setOnAddToCartListener { produk ->
+            Log.d("AddToCart", "AddToCart is Successfull")
+        }
     }
 
     private fun setupRecyclerView() {

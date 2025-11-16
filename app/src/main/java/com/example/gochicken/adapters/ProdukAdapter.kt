@@ -6,10 +6,13 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.gochicken.R
 import com.example.gochicken.main.Produk
+import com.example.gochicken.utils.CartManager
+import com.google.android.material.snackbar.Snackbar
 
 class ProdukAdapter(private var produkList: List<Produk>) :
     RecyclerView.Adapter<ProdukAdapter.ProdukViewHolder>() {
@@ -52,17 +55,46 @@ class ProdukAdapter(private var produkList: List<Produk>) :
             productPrice.text = formatPrice(produk.harga)
             productStock.text = "Stok: ${produk.jumlah_stok}"
 
+            // Update cart button appearance based on stock and cart status
+            if (produk.jumlah_stok <= 0) {
+                cartButton.isEnabled = false
+                cartButton.setColorFilter(ContextCompat.getColor(itemView.context, R.color.gray))
+                productStock.setTextColor(ContextCompat.getColor(itemView.context, R.color.logout_red))
+            } else {
+                cartButton.isEnabled = true
+                if (CartManager.isProductInCart(produk.id_produk)) {
+                    cartButton.setColorFilter(ContextCompat.getColor(itemView.context, R.color.app_orange))
+                } else {
+                    cartButton.setColorFilter(ContextCompat.getColor(itemView.context, R.color.app_text_dark))
+                }
+                productStock.setTextColor(ContextCompat.getColor(itemView.context, R.color.app_text_dark))
+            }
+
             // Load image with better handling
             val imageUrl = produk.gambar_url ?: "http://172.16.246.100:8000/storage/${produk.gambar_produk}"
             Glide.with(itemView.context)
                 .load(imageUrl)
-                .placeholder(R.drawable.ic_logout)
-                .error(R.drawable.ic_logout)
+                .placeholder(R.drawable.ic_launcher_background)
+                .error(R.drawable.ic_launcher_background)
                 .centerInside()
                 .into(productImage)
 
             cartButton.setOnClickListener {
-                onAddToCartListener?.invoke(produk)
+                if (produk.jumlah_stok > 0) {
+                    CartManager.addToCart(produk, 1)
+                    onAddToCartListener?.invoke(produk)
+
+                    // Show snackbar feedback
+                    Snackbar.make(itemView, "${produk.nama_produk} ditambahkan ke keranjang", Snackbar.LENGTH_SHORT)
+                        .setAction("Lihat") {
+                            // Optional: Navigate to cart
+                            onAddToCartListener?.invoke(produk)
+                        }
+                        .show()
+
+                    // Update button color
+                    cartButton.setColorFilter(ContextCompat.getColor(itemView.context, R.color.app_orange))
+                }
             }
         }
 

@@ -1,7 +1,57 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.GoChicken" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-         <item name="colorPrimary">@color/colorRed_Option2</item>
+        <!-- Customize your light theme here. -->
+        <item name="colorPrimary">@color/colorRed_Option2</item>
     </style>
+
+    <style name="CustomAlertDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="android:background">@drawable/dialog_background</item>
+        <item name="materialAlertDialogTitleTextStyle">@style/CustomAlertDialogTitle</item>
+        <item name="materialAlertDialogBodyTextStyle">@style/CustomAlertDialogBody</item>
+        <item name="buttonBarPositiveButtonStyle">@style/CustomPositiveButton</item>
+        <item name="buttonBarNegativeButtonStyle">@style/CustomNegativeButton</item>
+    </style>
+
+    <style name="CustomAlertDialogTitle" parent="MaterialAlertDialog.Material3.Title.Text">
+        <item name="android:textColor">@color/app_text_dark</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="CustomAlertDialogBody" parent="MaterialAlertDialog.Material3.Body.Text">
+        <item name="android:textColor">@color/app_text_dark</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="CustomPositiveButton" parent="Widget.Material3.Button.TextButton">
+        <item name="android:textColor">@color/logout_red</item>
+    </style>
+
+    <style name="CustomNegativeButton" parent="Widget.Material3.Button.TextButton">
+        <item name="android:textColor">@color/app_text_gray</item>
+    </style>
+
+    <!-- Sort Dropdown Style -->
+    <style name="SortDropdownStyle" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="android:background">@drawable/dialog_background</item>
+        <item name="materialAlertDialogTitleTextStyle">@style/SortDropdownTitle</item>
+        <item name="materialAlertDialogBodyTextStyle">@style/SortDropdownItem</item>
+        <item name="buttonBarPositiveButtonStyle">@style/CustomPositiveButton</item>
+        <item name="buttonBarNegativeButtonStyle">@style/CustomNegativeButton</item>
+    </style>
+
+    <style name="SortDropdownTitle" parent="MaterialAlertDialog.Material3.Title.Text">
+        <item name="android:textColor">@color/app_text_dark</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="SortDropdownItem" parent="MaterialAlertDialog.Material3.Body.Text">
+        <item name="android:textColor">@color/app_text_dark</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:padding">12dp</item>
+    </style>
+
+    <style name="Theme.GoChicken" parent="Base.Theme.GoChicken" />
 </resources>

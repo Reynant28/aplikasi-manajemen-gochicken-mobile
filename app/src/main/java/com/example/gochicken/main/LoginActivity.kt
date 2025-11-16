@@ -82,12 +82,12 @@ class LoginActivity : AppCompatActivity() {
             if (isPasswordVisible) {
                 // Hide password
                 etPasswordCabang.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-                ivTogglePassword.setImageResource(com.example.gochicken.R.drawable.ic_eye_off)
+                ivTogglePassword.setImageResource(com.example.gochicken.R.drawable.ic_eye)
                 isPasswordVisible = false
             } else {
                 // Show password
                 etPasswordCabang.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-                ivTogglePassword.setImageResource(com.example.gochicken.R.drawable.ic_eye)
+                ivTogglePassword.setImageResource(com.example.gochicken.R.drawable.ic_eye_off)
                 isPasswordVisible = true
             }
             // Move cursor to end of text
