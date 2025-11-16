@@ -7,6 +7,11 @@ class Prefs(context: Context) {
     private val sharedPref: SharedPreferences = context.getSharedPreferences("USER_PREF", Context.MODE_PRIVATE)
 
     fun getToken(): String? = sharedPref.getString("TOKEN", null)
+
+    fun setToken(token: String) {
+        sharedPref.edit().putString("TOKEN", token).apply()
+    }
+
     fun getCabangId(): Int = sharedPref.getInt("CABANG_ID", 0)
     fun getCabangName(): String? = sharedPref.getString("CABANG_NAME", null)
     fun getUserRole(): String? = sharedPref.getString("USER_ROLE", null)

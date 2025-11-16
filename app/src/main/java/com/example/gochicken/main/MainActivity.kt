@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var menuHeader: LinearLayout
     private lateinit var btnSortDropdown: MaterialButton
     private lateinit var iconMenu: ImageView
-    private lateinit var prefs: Prefs
+
     private val handler = Handler(Looper.getMainLooper())
     private val timeFormat = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
     private val dateFormat = SimpleDateFormat("EEEE, d MMMM", Locale("id", "ID"))
@@ -61,10 +61,16 @@ class MainActivity : AppCompatActivity() {
         SortType.CATEGORY to "Kategori"
     )
 
+    private lateinit var prefs: Prefs
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
+
+        // Initialize Prefs and ApiClient
+        prefs = Prefs(this)
+        ApiClient.initialize(this)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -72,7 +78,6 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        prefs = Prefs(this)
         setupToolbar()
         setupMenu()
         setupSortDropdown()

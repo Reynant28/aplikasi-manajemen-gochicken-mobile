@@ -14,6 +14,7 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.gochicken.api.ApiClient
+import com.example.gochicken.utils.Prefs
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -25,49 +26,18 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var btnLogin: Button
     private lateinit var ivTogglePassword: ImageView
     private lateinit var progressBar: ProgressBar
+    private lateinit var prefs: Prefs
 
     private var cabangList: List<com.example.gochicken.main.Cabang> = emptyList()
     private var selectedCabangId: String? = null
     private var isPasswordVisible = false
 
-    private fun loadCabangData() {
-        Log.d("CabangDebug", "Loading cabang data...")
-
-        ApiClient.instance.getCabang().enqueue(object : Callback<com.example.gochicken.main.CabangResponse> {
-            override fun onResponse(call: Call<com.example.gochicken.main.CabangResponse>, response: Response<com.example.gochicken.main.CabangResponse>) {
-                Log.d("CabangDebug", "Response code: ${response.code()}")
-
-                if (response.isSuccessful && response.body() != null) {
-                    val cabangResponse = response.body()!!
-                    cabangList = cabangResponse.data
-                    Log.d("CabangDebug", "Cabang count: ${cabangList.size}")
-
-                    val namaCabangList = cabangList.map { it.nama_cabang }
-                    val adapter = ArrayAdapter(
-                        this@LoginActivity,
-                        R.layout.simple_dropdown_item_1line,
-                        namaCabangList
-                    )
-                    actCabang.setAdapter(adapter)
-
-                    actCabang.setOnItemClickListener { _, _, position, _ ->
-                        selectedCabangId = cabangList[position].id_cabang
-                        Log.d("CabangDebug", "Selected cabang ID: $selectedCabangId")
-                    }
-                } else {
-                    Log.e("CabangDebug", "Response error: ${response.errorBody()?.string()}")
-                }
-            }
-
-            override fun onFailure(call: Call<com.example.gochicken.main.CabangResponse>, t: Throwable) {
-                Log.e("CabangDebug", "Network error: ${t.message}", t)
-            }
-        })
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(com.example.gochicken.R.layout.activity_login)
+
+        // Initialize Prefs
+        prefs = Prefs(this)
 
         actCabang = findViewById(com.example.gochicken.R.id.actCabang)
         etPasswordCabang = findViewById(com.example.gochicken.R.id.etPasswordCabang)
@@ -108,7 +78,8 @@ class LoginActivity : AppCompatActivity() {
             btnLogin.text = ""
             progressBar.visibility = View.VISIBLE
 
-            ApiClient.instance.loginKasir(idCabang, passCabang)
+            // Use publicInstance for login (no auth required)
+            ApiClient.publicInstance.loginKasir(idCabang, passCabang)
                 .enqueue(object : Callback<LoginResponse> {
                     override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                         // Hide loading state
@@ -146,17 +117,65 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    private fun loadCabangData() {
+        Log.d("CabangDebug", "Loading cabang data...")
+
+        // Use publicInstance for public API calls
+        ApiClient.publicInstance.getCabang().enqueue(object : Callback<com.example.gochicken.main.CabangResponse> {
+            override fun onResponse(call: Call<com.example.gochicken.main.CabangResponse>, response: Response<com.example.gochicken.main.CabangResponse>) {
+                Log.d("CabangDebug", "Response code: ${response.code()}")
+
+                if (response.isSuccessful && response.body() != null) {
+                    val cabangResponse = response.body()!!
+                    cabangList = cabangResponse.data
+                    Log.d("CabangDebug", "Cabang count: ${cabangList.size}")
+
+                    val namaCabangList = cabangList.map { it.nama_cabang }
+                    val adapter = ArrayAdapter(
+                        this@LoginActivity,
+                        R.layout.simple_dropdown_item_1line,
+                        namaCabangList
+                    )
+                    actCabang.setAdapter(adapter)
+
+                    actCabang.setOnItemClickListener { _, _, position, _ ->
+                        selectedCabangId = cabangList[position].id_cabang
+                        Log.d("CabangDebug", "Selected cabang ID: $selectedCabangId")
+                    }
+                } else {
+                    Log.e("CabangDebug", "Response error: ${response.errorBody()?.string()}")
+                }
+            }
+
+            override fun onFailure(call: Call<com.example.gochicken.main.CabangResponse>, t: Throwable) {
+                Log.e("CabangDebug", "Network error: ${t.message}", t)
+            }
+        })
+    }
+
     private fun saveUserData(token: String, user: com.example.gochicken.main.User, cabang: com.example.gochicken.main.Cabang) {
+        // Save token to Prefs
+        prefs.setToken(token)
+
         val sharedPref = getSharedPreferences("USER_PREF", MODE_PRIVATE)
-        with(sharedPref.edit()) {
-            putString("TOKEN", token)
-            putInt("USER_ID", user.id)
-            putString("USER_NAME", user.name ?: user.nama ?: "")
-            putString("USER_EMAIL", user.email ?: "")
-            putString("USER_ROLE", user.role ?: "")
-            putInt("CABANG_ID", user.id_cabang ?: cabang.id_cabang.toInt())
-            putString("CABANG_NAME", cabang.nama_cabang)
-            apply()
+        user.role?.let { role ->
+            // Save to shared preferences
+            val sharedPref = getSharedPreferences("USER_PREF", MODE_PRIVATE)
+            with(sharedPref.edit()) {
+                putString("TOKEN", token)
+                putInt("USER_ID", user.id)
+                putString("USER_NAME", user.name ?: user.nama ?: "")
+                putString("USER_EMAIL", user.email ?: "")
+                putString("USER_ROLE", role) // ← THIS IS THE IMPORTANT LINE
+                putInt("CABANG_ID", user.id_cabang ?: cabang.id_cabang.toInt())
+                putString("CABANG_NAME", cabang.nama_cabang)
+                apply()
+            }
+
+            // Also log the role for debugging
+            Log.d("LoginActivity", "User role saved: $role")
+        } ?: run {
+            Log.e("LoginActivity", "User role is null!")
         }
     }
 }

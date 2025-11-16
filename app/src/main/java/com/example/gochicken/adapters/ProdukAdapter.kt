@@ -71,7 +71,7 @@ class ProdukAdapter(private var produkList: List<Produk>) :
             }
 
             // Load image with better handling
-            val imageUrl = produk.gambar_url ?: "http://172.16.246.100:8000/storage/${produk.gambar_produk}"
+            val imageUrl = produk.gambar_url ?: "http://172.16.174.167:8000/storage/${produk.gambar_produk}"
             Glide.with(itemView.context)
                 .load(imageUrl)
                 .placeholder(R.drawable.ic_launcher_background)

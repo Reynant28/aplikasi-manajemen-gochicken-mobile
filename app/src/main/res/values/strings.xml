@@ -37,4 +37,7 @@
 
     <string name="desc_decrease_quantity">Decrease Quantity</string>
     <string name="desc_increase_quantity">Increase Quantity</string>
+
+    <string name="dropdown_metode_pembayaran">Metode pembayaran</string>
+
 </resources>

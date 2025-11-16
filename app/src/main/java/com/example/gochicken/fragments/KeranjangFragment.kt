@@ -12,6 +12,7 @@ import com.example.gochicken.R
 import com.example.gochicken.adapters.CartAdapter
 import com.example.gochicken.utils.CartManager
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class KeranjangFragment : Fragment() {
 
@@ -98,32 +99,28 @@ class KeranjangFragment : Fragment() {
     }
 
     private fun showCheckoutDialog() {
-        // Implement your checkout dialog logic here
-        // This could show order summary and proceed to payment/order confirmation
-        android.app.AlertDialog.Builder(requireContext())
+        val totalPrice = CartManager.getTotalPrice()
+        val totalItems = CartManager.getTotalItems()
+
+        MaterialAlertDialogBuilder(requireContext())
             .setTitle("Checkout")
-            .setMessage("Total: Rp ${String.format("%,.0f", CartManager.getTotalPrice())}\n\nLanjutkan dengan pesanan?")
+            .setMessage("Total: Rp ${String.format("%,.0f", totalPrice)}\nItem: $totalItems\n\nLanjutkan ke transaksi?")
             .setPositiveButton("Ya") { dialog, _ ->
-                // Handle checkout process
-                processCheckout()
+                // Navigate to transaction fragment
+                navigateToTransaction()
                 dialog.dismiss()
             }
-            .setNegativeButton("Batal", null)
+            .setNegativeButton("Batal") { dialog, _ ->
+                dialog.dismiss()
+            }
             .show()
     }
 
-    private fun processCheckout() {
-        // Implement your checkout process here
-        // This could involve sending order to API, etc.
-        // For now, just show a success message and clear cart
-        android.app.AlertDialog.Builder(requireContext())
-            .setTitle("Pesanan Berhasil")
-            .setMessage("Pesanan Anda telah berhasil dibuat!")
-            .setPositiveButton("OK") { dialog, _ ->
-                CartManager.clearCart()
-                dialog.dismiss()
-            }
-            .show()
+    private fun navigateToTransaction() {
+        val transaction = requireActivity().supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.fragment_container, TransaksiFragment())
+        transaction.addToBackStack("keranjang")
+        transaction.commit()
     }
 
     override fun onDestroyView() {

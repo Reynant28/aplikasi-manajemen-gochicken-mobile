@@ -55,7 +55,7 @@ class CartAdapter(private var cartItems: List<CartItem>) :
             etNotes.setText(cartItem.notes)
 
             // Load product image
-            val imageUrl = product.gambar_url ?: "http://172.16.246.100:8000/storage/${product.gambar_produk}"
+            val imageUrl = product.gambar_url ?: "http://172.16.174.167:8000/storage/${product.gambar_produk}"
             Glide.with(itemView.context)
                 .load(imageUrl)
                 .placeholder(R.drawable.ic_launcher_background)

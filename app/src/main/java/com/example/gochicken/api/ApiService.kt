@@ -26,4 +26,10 @@ interface ApiService {
 
     @GET("current-user")
     fun getCurrentUser(): Call<UserResponse>
+
+    @POST("transaksi")
+    fun createTransaksi(@Body request: CreateTransaksiRequest): Call<CreateTransaksiResponse>
+
+    @GET("cabang/{id_cabang}/transaksi")
+    fun getTransaksiByCabang(@Path("id_cabang") idCabang: Int): Call<TransaksiResponse>
 }
